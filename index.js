@@ -26,7 +26,7 @@ if (process.env.NODE_ENV != 'test')
 {
 	(async () => {
 		await listAuthenicatedUserRepos();
-		await listBranches(userId, "SSW567");
+		await listBranches(userId, "HW4-345");
 		//await createRepo(userId,newrepo);
 		//await createIssue(userId, repo, issue);
 		//await enableWikiSupport(userId,repo);
@@ -102,8 +102,7 @@ async function listBranches(owner,repo)
 	{
 		request(options, function (error, response, body) {
 
-			var obj = JSON.parse(JSON.stringify(response));
-			console.log( obj );
+			var obj = JSON.parse(body);
 			// console.debug( options );
 			resolve(obj);
 
