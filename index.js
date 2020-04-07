@@ -25,11 +25,11 @@ console.log(chalk.green(`Your token is: ${config.token.substring(0,4)}...`));
 if (process.env.NODE_ENV != 'test')
 {
 	(async () => {
-		await listAuthenicatedUserRepos();
-		await listBranches(userId, "HW4-345");
-		await createRepo(userId,"test-HW4-345");
-		await createIssue(userId, "HW4-345", "issue name");
-		await enableWikiSupport(userId,"HW4-345");
+    await listAuthenicatedUserRepos();
+    await listBranches(userId, "your repo");
+    await createRepo(userId,newrepo);
+    await createIssue(userId, repo, issue);
+    await enableWikiSupport(userId,repo);
 
 	})()
 }
@@ -130,7 +130,7 @@ async function createRepo(owner,repo)
 // 3. Write code for creating an issue for an existing repo.
 async function createIssue(owner,repo, issueName, issueBody)
 {
-	let options = getDefaultOptions(`/repos/${owner}/repos/issues`, "POST");
+	let options = getDefaultOptions(`/repos/${owner}/${repo}/issues`, "POST");
   options.json = {
 		title: issueName,
 		body: issueBody
@@ -151,6 +151,9 @@ async function enableWikiSupport(owner,repo)
 {
 	let options = getDefaultOptions(`/repos/${owner}/${repo}`, "PATCH");
 
+  options.json =  {
+    "has_wiki": true
+  }
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
 	{
