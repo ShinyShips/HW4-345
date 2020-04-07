@@ -27,9 +27,9 @@ if (process.env.NODE_ENV != 'test')
 	(async () => {
 		await listAuthenicatedUserRepos();
 		await listBranches(userId, "HW4-345");
-		//await createRepo(userId,newrepo);
-		//await createIssue(userId, repo, issue);
-		//await enableWikiSupport(userId,repo);
+		await createRepo(userId,"test-HW4-345");
+		await createIssue(userId, "HW4-345", "issue name");
+		await enableWikiSupport(userId,"HW4-345");
 
 	})()
 }
@@ -113,7 +113,8 @@ async function listBranches(owner,repo)
 // 2. Write code to create a new repo
 async function createRepo(owner,repo)
 {
-	let options = getDefaultOptions("/", "POST");
+  let options = getDefaultOptions("/user/repos", "POST");
+  options.json = {name:repo};
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -129,8 +130,11 @@ async function createRepo(owner,repo)
 // 3. Write code for creating an issue for an existing repo.
 async function createIssue(owner,repo, issueName, issueBody)
 {
-	let options = getDefaultOptions("/", "POST");
-
+	let options = getDefaultOptions(`/repos/${owner}/repos/issues`, "POST");
+  options.json = {
+		title: issueName,
+		body: issueBody
+	};
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
 	{
@@ -145,7 +149,7 @@ async function createIssue(owner,repo, issueName, issueBody)
 // 4. Write code for editing a repo to enable wiki support.
 async function enableWikiSupport(owner,repo)
 {
-	let options = getDefaultOptions("/", "PATCH");
+	let options = getDefaultOptions(`/repos/${owner}/${repo}`, "PATCH");
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
